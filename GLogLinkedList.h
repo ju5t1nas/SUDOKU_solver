@@ -12,6 +12,9 @@ struct node
     int coordinates[4];
     int numberGuessed;
     int guessPriority;
+    int mainBoard[3][3][3][3] = {{{{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0}}},
+                                 {{{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0}}},
+                                 {{{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0}},{{0,0,0},{0,0,0},{0,0,0}}}};
     int possibilityBoard[3][3][3][3][10];
     struct node *next;
 };
@@ -27,7 +30,7 @@ public:
     }
 
     //Declaring function for adding a node.
-    void add_node(int coor[4], int num, int guessP, int possBoard[3][3][3][3][10]);
+    void add_node(int coor[4], int num, int guessP, int possBoard[3][3][3][3][10], int mainB[3][3][3][3]);
 
     //Declaring function for getting the first node.
     node* getHead();
@@ -40,7 +43,9 @@ public:
 
     node* getToLastGuess();
 
-    void deleteAfter(node* after);
+    node* getToOneBeforeLastGuess();
+
+    void deleteAfter(node *after);
 };
 
 #endif //SUDOKU_SOLVER_GLOGLINKEDLIST_H

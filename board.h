@@ -43,6 +43,8 @@ private:
         //This function goes into the findAndFixMistakes() function.
         void fixMistakes();
 
+    void printMainBoard();
+
     //Functions for constructor to run;
     void start(int inputBoard[3][3][3][3]);
     void go();

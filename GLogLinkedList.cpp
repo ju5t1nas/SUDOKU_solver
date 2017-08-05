@@ -3,8 +3,9 @@
 //
 
 #include "GLogLinkedList.h"
+#include <iostream>
 
-void GLogLinkedList::add_node(int coor[4], int num, int guessP, int possBoard[3][3][3][3][10])
+void GLogLinkedList::add_node(int coor[4], int num, int guessP, int possBoard[3][3][3][3][10], int mainB[3][3][3][3])
 {
     node *tmp = new node;
     for(int i=0; i<4; i+=1)
@@ -22,6 +23,7 @@ void GLogLinkedList::add_node(int coor[4], int num, int guessP, int possBoard[3]
             {
                 for(int l=0; l<3; l+=1)
                 {
+                    tmp->mainBoard[i][j][k][l] = mainB[i][j][k][l];
                     for(int m=0; m<10; m+=1)
                     {
                         tmp->possibilityBoard[i][j][k][l][m] = possBoard[i][j][k][l][m];
@@ -69,7 +71,24 @@ node* GLogLinkedList::getToLastGuess()
             wanted = tmp;
         }
         tmp = tmp->next;
+    }
+    return wanted;
+}
 
+node* GLogLinkedList::getToOneBeforeLastGuess()
+{
+    node *tmp;
+    tmp = head;
+
+    node *wanted;
+
+    while(tmp->next != NULL)
+    {
+        if(tmp->next->guessPriority != 1)
+        {
+            wanted = tmp;
+        }
+        tmp = tmp->next;
     }
     return wanted;
 }
@@ -89,11 +108,19 @@ void GLogLinkedList::displayAll(node *head)
 
 void GLogLinkedList::deleteAfter(node *after)
 {
-    if(after->next != NULL)
+    if(after == head)
     {
-        delete after->next;
+        delete after;
+        head = NULL;
+        tail = NULL;
     }
-
+    else if(after != head)
+    {
+        after = getToOneBeforeLastGuess();
+        delete after->next;
+        after->next = NULL;
+        tail = after;
+    }
     after->next = NULL;
     tail = after;
 }
